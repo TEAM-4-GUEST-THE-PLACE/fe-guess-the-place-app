@@ -18,8 +18,8 @@ export default function Router() {
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Avatar" component={ChooseAvatar} />
-      <Stack.Screen name="Splash" component={Home} />
-      <Stack.Screen name="Signin" component={Lobby} />
+      {/* <Stack.Screen name="Splash" component={Home} /> */}
+      {/* <Stack.Screen name="Signin" component={Lobby} /> */}
     </Stack.Navigator>
   );
 }

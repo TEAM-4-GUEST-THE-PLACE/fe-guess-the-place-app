@@ -26,6 +26,7 @@ export default function Home() {
           }}
         >
           <Image
+            alt="logo"
             source={require("../../assets/logo2.png")}
             style={{
               width: 250,
@@ -35,6 +36,7 @@ export default function Home() {
           />
           <View style={styles.container}>
             <Image
+              alt="logo"
               style={{ width: 200, height: 200 }}
               source={require("../../assets/logo-text2.png")}
             />

@@ -25,7 +25,6 @@ import { IAvatar } from "../interface/avatar";
 import { ButtonIcon } from "@gluestack-ui/themed";
 import { Input } from "@gluestack-ui/themed";
 import { FontAwesome } from "@expo/vector-icons";
-import { BlurView } from "@react-native-community/blur";
 const { width, height } = Dimensions.get("window");
 
 export default function ChooseAvatar() {
@@ -58,6 +57,7 @@ export default function ChooseAvatar() {
             }}
           >
             <Image
+              alt="logo"
               source={require("../../assets/logo2.png")}
               style={{
                 width: 100,

@@ -21,6 +21,7 @@ export default function Lobby() {
           }}
         >
           <Image
+            alt="logo"
             source={require("../../assets/logo2.png")}
             style={{
               width: 250,
@@ -30,6 +31,7 @@ export default function Lobby() {
           />
           <View style={styles.container}>
             <Image
+              alt="logo"
               style={{ width: 150, height: 150 }}
               source={require("../../assets/app name.png")}
             />
