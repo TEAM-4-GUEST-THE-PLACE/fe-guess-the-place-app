@@ -1,6 +1,6 @@
 import { Button, ButtonText, Heading, Image } from "@gluestack-ui/themed";
 import { useState } from "react";
-import { StyleSheet, ImageBackground, StatusBar, ActivityIndicator, Alert } from "react-native";
+import { StyleSheet, ImageBackground, StatusBar, ActivityIndicator, Alert } from "react-native"
 const bg1 = require("../../../assets/background/bg1.jpg");
 const logo = require("../../../assets/logo/logo2.png");
 const appName = require("../../../assets/logo/gtp3.png");
