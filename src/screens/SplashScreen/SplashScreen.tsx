@@ -26,7 +26,27 @@ export default function SplashScreen() {
         isFocusVisible={false}
         onPress={() => navigation.navigate("SignIn" as never)}
       >
-        <ButtonText>Next</ButtonText>
+        <ButtonText>login</ButtonText>
+      </Button>
+      <Button
+        size="md"
+        variant="solid"
+        action="primary"
+        isDisabled={false}
+        isFocusVisible={false}
+        onPress={() => navigation.navigate("Home" as never)}
+      >
+        <ButtonText>Home</ButtonText>
+      </Button>
+      <Button
+        size="md"
+        variant="solid"
+        action="primary"
+        isDisabled={false}
+        isFocusVisible={false}
+        onPress={() => navigation.navigate("Avatar" as never)}
+      >
+        <ButtonText>Choose Avatar</ButtonText>
       </Button>
 
       <StatusBar hidden />
