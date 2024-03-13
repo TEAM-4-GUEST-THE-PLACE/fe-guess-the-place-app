@@ -14,13 +14,13 @@ export default function HomeScreen() {
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mt={20} px={15}>
                 <Image source={logo} alt="logo" size="sm" />
                 <Box display="flex" flexDirection="row" alignItems="center" bg="#353d41">
-                    <Image source={diamond} size={"2xs"} alt="diamond" />
-                    <Text textAlign="center" color="$white" px={8}>
+                    <Image source={diamond} size={"2xs"} alt="diamond" ml={-14} />
+                    <Text textAlign="center" color="$white" px={15}>
                         999999
                     </Text>
 
                     <Box bg="lime" px={3} py={2} borderRadius={4}>
-                        <Icon name="plus" size={20} color={"white"} />
+                        <Icon name="plus" size={20} color={"white"} onPress={() => console.log("you click add diamond")} />
                     </Box>
                 </Box>
             </Box>
