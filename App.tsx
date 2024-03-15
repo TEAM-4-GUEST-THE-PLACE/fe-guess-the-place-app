@@ -52,11 +52,11 @@ export default function App() {
                 <StatusBar style="auto" />
 
                 <SignedIn>
-                    <UseUserData />
+                    {/* <UseUserData /> */}
                     <NavigationContainer>
                         <Router />
                     </NavigationContainer>
-                    <SignOut />
+                    {/* <SignOut /> */}
                 </SignedIn>
                 <SignedOut>
                     <SignInScreen />

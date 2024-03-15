@@ -1,4 +1,5 @@
 import { Box, Heading, Image, Text, Button, ButtonText, Avatar, AvatarFallbackText, AvatarBadge, AvatarImage, Link } from "@gluestack-ui/themed";
+import { useNavigation } from "@react-navigation/native";
 import { ImageBackground, StatusBar, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -9,6 +10,7 @@ const img = require("../../assets/image/play-img.png");
 const avatar = require("../../assets/image/avatar.jpg");
 
 export default function HomeScreen() {
+    const navigation = useNavigation();
     return (
         <ImageBackground source={bg1} style={styles.container} blurRadius={3}>
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mt={20} px={15}>
@@ -42,7 +44,7 @@ export default function HomeScreen() {
 
             <Box display="flex" alignItems="center" justifyContent="center" mt={200}>
                 <Image alt="image" mt={-200} size="2xl" width={400} height={400} source={img} />
-                <Button size="md" mt={-50} bg="$green600" w={200} variant="solid" action="primary" isDisabled={false} isFocusVisible={false} onPress={() => console.log("clicked play game")}>
+                <Button size="md" mt={-50} bg="$green600" w={200} variant="solid" action="primary" isDisabled={false} isFocusVisible={false} onPress={() => navigation.navigate("FindMatch" as never)}>
                     <ButtonText>Play </ButtonText>
                 </Button>
             </Box>
