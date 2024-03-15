@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <GluestackUIProvider config={config}>
-      <StatusBar style="auto" />
+      {/* <StatusBar style="auto" /> */}
       <NavigationContainer>
         <Router />
       </NavigationContainer>

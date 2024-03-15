@@ -1,4 +1,4 @@
-export const IAvatar = {
-  id: Number,
-  avatar: String,
-};
+export interface IAvatar {
+  id: number;
+  avatar: string;
+}
