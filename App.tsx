@@ -56,7 +56,7 @@ export default function App() {
                     <NavigationContainer>
                         <Router />
                     </NavigationContainer>
-                    {/* <SignOut /> */}
+                    <SignOut />
                 </SignedIn>
                 <SignedOut>
                     <SignInScreen />
