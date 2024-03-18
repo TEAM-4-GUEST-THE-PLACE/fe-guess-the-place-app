@@ -12,7 +12,6 @@ import { Box } from "@gluestack-ui/themed";
 
 export default function ModalTopUp() {
     const [showModal, setShowModal] = useState(false);
-    console.log(showModal);
     const ref = React.useRef(null);
     return (
         <Center>
