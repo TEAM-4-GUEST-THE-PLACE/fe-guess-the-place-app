@@ -57,6 +57,7 @@ export const DiamondItem = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                backgroundColor: "yellow",
             }}
         >
             <FlatList
@@ -64,13 +65,18 @@ export const DiamondItem = () => {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={{
-                            marginRight: 20,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            paddingLeft: 5,
+                            paddingRight: 5,
+                            // marginRight: 20,
                             marginBottom: 5,
                             borderWidth: 1,
                             borderColor: "black",
                             padding: 1,
                             borderRadius: 5,
-                            backgroundColor: selectedDiamond?.totaldiamond === item.totaldiamond ? "blue" : "#82ade1",
+                            backgroundColor: selectedDiamond?.totaldiamond === item.totaldiamond ? "lightblue" : "#82ade1",
                         }}
                         onPress={() => selectDiamond(item)}
                     >
@@ -79,7 +85,7 @@ export const DiamondItem = () => {
                                 textAlign: "center",
                                 color: "#24ff00",
                                 fontWeight: "bold",
-                                fontSize: 20,
+                                fontSize: 15,
                             }}
                         >
                             {item.totaldiamond}
@@ -88,8 +94,8 @@ export const DiamondItem = () => {
                         <Image
                             source={item.imagediamond}
                             style={{
-                                width: 75,
-                                height: 75,
+                                width: 60,
+                                height: 60,
                                 borderRadius: 10,
                                 borderWidth: 1,
                                 margin: 2,

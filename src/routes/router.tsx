@@ -4,9 +4,7 @@ import SignInScreen from "../screens/AuthScreen/SignInScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ChooseAvatar from "../screens/ChooseAvatar";
 import FindMatch from "../screens/FindMatch";
-// import Home from "../screens/Home";
-// import Lobby from "../screens/Lobby";
-import PlayScreen from "../screens/PlayScreen";
+import QuestionScreen from "../screens/QuestionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,10 +16,7 @@ export default function Router() {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Avatar" component={ChooseAvatar} />
             <Stack.Screen name="FindMatch" component={FindMatch} />
-            <Stack.Screen name="Play" component={PlayScreen} />
-
-            {/* <Stack.Screen name="Splash" component={Home} /> */}
-            {/* <Stack.Screen name="Signin" component={Lobby} /> */}
+            <Stack.Screen name="Question" component={QuestionScreen} />
         </Stack.Navigator>
     );
 }

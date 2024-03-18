@@ -27,6 +27,12 @@ export default function FindMatch() {
         setPlayers(dataPlayers);
     }, []);
 
+    if (!timeLeft) {
+        setTimeout(() => {
+            navigation.navigate("Question" as never);
+        }, 2000);
+    }
+
     return (
         <ImageBackground source={require("../../assets/background/bg1.jpg")} style={styles.container} blurRadius={2}>
             {/* HEADER */}
@@ -56,7 +62,7 @@ export default function FindMatch() {
             {/* LIST PLAYER */}
             <Box mt={40} display="flex" alignItems="center" justifyContent="center" flexDirection="column" gap={20}>
                 {players?.map((item, index) => (
-                    <Box bg="rgba(0,0,0,0.4)" flexDirection="row" alignItems="center" w={270} pl={15} py={10} mb={5} borderRadius={"$lg"}>
+                    <Box key={index} bg="rgba(0,0,0,0.4)" flexDirection="row" alignItems="center" w={270} pl={15} py={10} mb={5} borderRadius={"$lg"}>
                         <Avatar mr="$3">
                             <AvatarFallbackText fontFamily="$heading">RR</AvatarFallbackText>
                             <AvatarImage alt="avatar" source={item.avatar} />
