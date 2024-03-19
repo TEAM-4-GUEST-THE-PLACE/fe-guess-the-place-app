@@ -1,21 +1,33 @@
 import React, { useState } from "react";
-import { Image, FlatList, TouchableOpacity, View, Text } from "react-native";
-import { Ionicons, FontAwesome } from "@expo/vector-icons"; 
+import { Image, TouchableOpacity, Text } from "react-native";
+import { FontAwesome } from "@expo/vector-icons"; 
+import { View } from "@gluestack-ui/themed";
 
 export const Avatar = () => {
-  const [avatar, setAvatar] = useState([
-    "https://picsum.photos/200/300",
-    "https://picsum.photos/200/300",
-    "https://picsum.photos/200/300",
-    "https://picsum.photos/200/300",
-    "https://picsum.photos/200/300",
-    "https://picsum.photos/200/300",
+  const [avatars, setAvatars] = useState([
+    { uri: "https://picsum.photos/200/300", selected: false },
+    { uri: "https://picsum.photos/200/300", selected: false },
+    { uri: "https://picsum.photos/200/300", selected: false },
+    { uri: "https://img.freepik.com/fotos-gratis/avatar-androgino-de-pessoa-queer-nao-binaria_23-2151100226.jpg", selected: false },
+    { uri: "https://img.freepik.com/premium-photo/nonbinary-avatar-picture_862489-4367.jpg", selected: false },
+    { uri: "https://img.freepik.com/free-photo/androgynous-avatar-non-binary-queer-person_23-2151100222.jpg?t=st=1710831610~exp=1710835210~hmac=ee7c2ea82a9aa8315873c31aa85fc167c08ceb2d173c7bf9ad0731ba4e3a8a73&w=740", selected: false },
   ]);
 
-  const renderItem = ({ item, index }: any) => {
+  const toggleSelection = (index : any) => {
+    setAvatars(avatars.map((avatar, i) => {
+      if (i === index) {
+        return { ...avatar, selected: !avatar.selected };
+      } else {
+        return { ...avatar, selected: false }; 
+      }
+    }));
+  };
+
+  const renderAvatar = (avatarUri : any , index : any)  => {
     let avatarComponent = (
       <Image
-        source={{ uri: item }}
+        key={index}
+        source={{ uri: avatarUri }}
         style={{
           width: 65,
           height: 65,
@@ -26,14 +38,27 @@ export const Avatar = () => {
       />
     );
 
-
     if (index < 3) {
       avatarComponent = (
         <>
           {avatarComponent}
-          <Text style={{ color: "black", marginTop: 5, fontWeight: "bold" }}>
+          <Text style={{ color: "white", marginTop: 5, fontWeight: "bold" }}>
             FREE
           </Text>
+        </>
+      );
+    }
+
+    if (avatars[index].selected) {
+      avatarComponent = (
+        <>
+          {avatarComponent}
+          <FontAwesome
+            name="check-circle"
+            size={24}
+            color="green"
+            style={{ position: "absolute", top: 5, right: 5 }}
+          />
         </>
       );
     }
@@ -53,13 +78,14 @@ export const Avatar = () => {
     }
 
     return (
-      <TouchableOpacity style={{ marginRight: 20, marginBottom: 5 }}>
+      <TouchableOpacity key={index} style={{ marginRight: 20, marginBottom: 5 }} onPress={() => toggleSelection(index)}>
         <View
           style={{
             width: 75,
             height: 105,
             borderRadius: 10,
             borderWidth: 1,
+            borderColor: "white",
             backgroundColor: "transparent",
             justifyContent: "center",
             alignItems: "center",
@@ -71,25 +97,9 @@ export const Avatar = () => {
     );
   };
 
-  const renderSeparator = () => <View style={{ width: 10 }} />;
-
   return (
-    <View
-      style={{
-        flex: 1,
-        padding: 1,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <FlatList
-        data={avatar}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={3}
-        ItemSeparatorComponent={renderSeparator}
-      />
+    <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+      {avatars.map((avatar, index) => renderAvatar(avatar.uri, index))}
     </View>
   );
 };
