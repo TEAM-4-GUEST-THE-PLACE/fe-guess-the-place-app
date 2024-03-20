@@ -9,39 +9,51 @@ import { IPlayers } from "../interface/players";
 import { ButtonText } from "@gluestack-ui/themed";
 import io from "socket.io-client";
 import UseUserData from "../hooks/useUserData";
+import { IUserList } from "../interface/userList";
 
 export default function FindMatch() {
     const navigation = useNavigation();
     const [timeLeft, setTimeLeft] = useState(5);
     const [players, setPlayers] = useState<null | IPlayers[]>(null);
-    const [userLists, setUserLists] = useState();
+    const [userLists, setUserLists] = useState<IUserList[]>();
     const [playerInRoom, setPlayerInRoom] = useState(0);
 
-    const socket = io("http://192.168.18.27:3000");
+    // const socket = io("http://192.168.18.27:3000");
     // const socket = io("https://92d0-2404-8000-1095-99a-c48f-ce1a-6b9c-fd4b.ngrok-free.app");
-
-    const dataUserLogin = UseUserData();
-    console.log("datauserlogin:", dataUserLogin);
-
-    socket.on("clients-total", (data) => {
-        console.log("data clients", data);
-    });
-
-    socket.on("userLists", (data) => {
-        setUserLists(data);
-    });
-
-    if (userLists) {
-        console.log("userlists:", userLists);
-    }
-
-    function endRoom() {
-        socket.emit("endRoom", { username: dataUserLogin?.username });
-    }
+    const socket = io("https://3f41-2404-8000-1095-99a-d18c-ab8f-d10-fea4.ngrok-free.app");
 
     useEffect(() => {
         socket.emit("joinRoom", { username: dataUserLogin?.username });
     }, []);
+
+    socket.on("usersList", (data) => {
+        // console.log("userLists from server:", data);
+        setUserLists(data);
+    });
+
+    const dataUserLogin = UseUserData();
+    // console.log("datauserlogin:", dataUserLogin);
+
+    socket.on("clients-total", (data) => {
+        setPlayerInRoom(data);
+    });
+
+    // if (userLists) {
+    //     console.log("userlists:", userLists);
+    // }
+
+    function exitRoom() {
+        const userExitRoom = userLists && userLists.filter((user) => user.username === dataUserLogin?.username);
+        console.log("userExitRoom", userExitRoom);
+        const { id, username, room } = userExitRoom![0];
+        const dataUserToExit = { id, username, room };
+        console.log("dataUserToExit", dataUserToExit);
+
+        socket.emit("exitRoom", dataUserToExit);
+        navigation.navigate("Home" as never);
+    }
+
+    // console.log("userLists in fe -- be:", userLists);
 
     useEffect(() => {
         if (!timeLeft) return;
@@ -69,7 +81,7 @@ export default function FindMatch() {
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mt={20} px={15}>
                 <Image source={require("../../assets/logo/logo2.png")} alt="logo" size="sm" />
                 <Box bg="white" px={3} py={2} borderRadius={4}>
-                    <Icon name="cross" size={20} color={"black"} onPress={() => navigation.navigate("Home" as never)} />
+                    <Icon name="cross" size={20} color={"black"} onPress={() => exitRoom()} />
                 </Box>
             </Box>
 
@@ -83,7 +95,7 @@ export default function FindMatch() {
                 </Heading>
                 <Heading color="$white" size="2xl">
                     <Heading color="$green400" size="2xl">
-                        {players?.length}
+                        {playerInRoom}
                     </Heading>
                     /5
                 </Heading>
