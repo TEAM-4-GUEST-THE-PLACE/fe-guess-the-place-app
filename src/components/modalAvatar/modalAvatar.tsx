@@ -57,7 +57,7 @@ export default function ModalAvatar() {
         finalFocusRef={ref}
       >
         <ModalBackdrop />
-        <ModalContent bg="#BBE7CC">
+        <ModalContent bg="rgba(0, 0, 0, 0.5)">
           <ModalHeader>
             <ModalCloseButton>
               <Icon as={CloseIcon} />
