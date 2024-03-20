@@ -12,9 +12,14 @@ export default function UseUserData() {
     for (const data of user.emailAddresses) {
         email = data.emailAddress;
     }
-    return (
-        <Text>
-            Hello, {user.fullName} welcome to Guess The Place, {email}
-        </Text>
-    );
+    // return (
+    //     <Text>
+    //         Hello, {user.fullName} welcome to Guess The Place, {email}
+    //     </Text>
+    // );
+
+    return {
+        username: user.fullName,
+        email: email,
+    };
 }

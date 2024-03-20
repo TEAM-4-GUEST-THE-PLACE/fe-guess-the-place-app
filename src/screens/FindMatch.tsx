@@ -1,17 +1,47 @@
-import { AvatarFallbackText, AvatarImage, FlatList, VStack } from "@gluestack-ui/themed";
-import { Avatar } from "@gluestack-ui/themed";
-import { Box, Heading, Image, ImageBackground, Text } from "@gluestack-ui/themed";
+import { AvatarFallbackText, AvatarImage, Button, VStack } from "@gluestack-ui/themed";
+import { Box, Heading, Image, ImageBackground, Avatar } from "@gluestack-ui/themed";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 import dataPlayers from "../../src/mocks/players.json";
 import { useNavigation } from "@react-navigation/native";
 import { IPlayers } from "../interface/players";
+import { ButtonText } from "@gluestack-ui/themed";
+import io from "socket.io-client";
+import UseUserData from "../hooks/useUserData";
 
 export default function FindMatch() {
     const navigation = useNavigation();
-    const [timeLeft, setTimeLeft] = useState(30);
+    const [timeLeft, setTimeLeft] = useState(5);
     const [players, setPlayers] = useState<null | IPlayers[]>(null);
+    const [userLists, setUserLists] = useState();
+    const [playerInRoom, setPlayerInRoom] = useState(0);
+
+    const socket = io("http://192.168.18.27:3000");
+    // const socket = io("https://92d0-2404-8000-1095-99a-c48f-ce1a-6b9c-fd4b.ngrok-free.app");
+
+    const dataUserLogin = UseUserData();
+    console.log("datauserlogin:", dataUserLogin);
+
+    socket.on("clients-total", (data) => {
+        console.log("data clients", data);
+    });
+
+    socket.on("userLists", (data) => {
+        setUserLists(data);
+    });
+
+    if (userLists) {
+        console.log("userlists:", userLists);
+    }
+
+    function endRoom() {
+        socket.emit("endRoom", { username: dataUserLogin?.username });
+    }
+
+    useEffect(() => {
+        socket.emit("joinRoom", { username: dataUserLogin?.username });
+    }, []);
 
     useEffect(() => {
         if (!timeLeft) return;
@@ -29,7 +59,7 @@ export default function FindMatch() {
 
     if (!timeLeft) {
         setTimeout(() => {
-            navigation.navigate("Question" as never);
+            // navigation.navigate("Question" as never);
         }, 2000);
     }
 
@@ -61,41 +91,25 @@ export default function FindMatch() {
 
             {/* LIST PLAYER */}
             <Box mt={40} display="flex" alignItems="center" justifyContent="center" flexDirection="column" gap={20}>
-                {players?.map((item, index) => (
-                    <Box key={index} bg="rgba(0,0,0,0.4)" flexDirection="row" alignItems="center" w={270} pl={15} py={10} mb={5} borderRadius={"$lg"}>
-                        <Avatar mr="$3">
-                            <AvatarFallbackText fontFamily="$heading">RR</AvatarFallbackText>
-                            <AvatarImage alt="avatar" source={item.avatar} />
-                        </Avatar>
-                        <VStack>
-                            <Heading size="lg" fontFamily="$heading" mb="$1" color="$white">
-                                {item.name}
-                            </Heading>
-                        </VStack>
-                    </Box>
-                ))}
+                {players &&
+                    players?.map((item, index) => (
+                        <Box key={index} bg="rgba(0,0,0,0.4)" flexDirection="row" alignItems="center" w={270} pl={15} py={10} mb={5} borderRadius={"$lg"}>
+                            <Avatar mr="$3">
+                                <AvatarFallbackText fontFamily="$heading">RR</AvatarFallbackText>
+                                <AvatarImage alt="avatar" source={item.avatar} />
+                            </Avatar>
+                            <VStack>
+                                <Heading size="lg" fontFamily="$heading" mb="$1" color="$white">
+                                    {item.name}
+                                </Heading>
+                            </VStack>
+                        </Box>
+                    ))}
             </Box>
 
-            {/* {
-                    <FlatList
-                        data={players}
-                        renderItem={({ item }: any) => (
-                            <Box bg="rgba(0,0,0,0.4)" flexDirection="row" px={40} py={10} mb={15} borderRadius={"$lg"}>
-                                <Avatar mr="$3">
-                                    <AvatarFallbackText fontFamily="$heading">RR</AvatarFallbackText>
-                                    <AvatarImage alt="avatar" source={require("../../assets/avatar/Ellipse 1.png")} />
-                                </Avatar>
-                                <VStack>
-                                    <Heading size="xl" fontFamily="$heading" mb="$1" color="$white">
-                                        {item.name}
-                                    </Heading>
-                                </VStack>
-                            </Box>
-                        )}
-                        keyExtractor={(item, index) => index.toString()}
-                    />
-                } */}
-            {/* </Box> */}
+            <Button size="md" mt={-50} bg="$green600" w={200} variant="solid" action="primary" isDisabled={false} isFocusVisible={false} onPress={() => navigation.navigate("Room" as never)}>
+                <ButtonText>Room player </ButtonText>
+            </Button>
         </ImageBackground>
     );
 }
