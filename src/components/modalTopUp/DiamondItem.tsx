@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Image, TouchableOpacity, View, FlatList } from "react-native";
+import { Image, TouchableOpacity, View, Text } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { Text } from "@gluestack-ui/themed";
-import { AntDesign } from "@expo/vector-icons";
+import { Box } from "@gluestack-ui/themed";
 import { Diamond } from "../../interface/diamond";
 
 export const DiamondItem = () => {
@@ -42,7 +41,6 @@ export const DiamondItem = () => {
 
     const selectDiamond = (diamond: Diamond) => {
         if (selectedDiamond === diamond) {
-            // Untuk menghilangkan pemilihan jika item yang sama diklik lagi
             setSelectedDiamond(null);
         } else {
             setSelectedDiamond(diamond);
@@ -50,67 +48,44 @@ export const DiamondItem = () => {
     };
 
     return (
-        <View
-            style={{
-                flex: 1,
-                padding: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "yellow",
-            }}
-        >
-            <FlatList
-                data={diamondData}
-                renderItem={({ item }) => (
-                    <TouchableOpacity
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            paddingLeft: 5,
-                            paddingRight: 5,
-                            // marginRight: 20,
-                            marginBottom: 5,
-                            borderWidth: 1,
-                            borderColor: "black",
-                            padding: 1,
-                            borderRadius: 5,
-                            backgroundColor: selectedDiamond?.totaldiamond === item.totaldiamond ? "lightblue" : "#82ade1",
-                        }}
-                        onPress={() => selectDiamond(item)}
-                    >
-                        <Text
-                            style={{
-                                textAlign: "center",
-                                color: "#24ff00",
-                                fontWeight: "bold",
-                                fontSize: 15,
-                            }}
-                        >
-                            {item.totaldiamond}
-                        </Text>
+        <Box style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+            {diamondData.map((diamond, index) => (
+                <TouchableOpacity
+                    key={index}
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: 5,
+                        marginRight: 20,
+                        marginBottom: 5,
+                        borderWidth: 1,
+                        borderColor: "white",
+                        padding: 1,
+                        borderRadius: 5,
+                        backgroundColor: selectedDiamond?.totaldiamond === diamond.totaldiamond ? "rgba(255, 255, 255, 0.5)" : "transparent",
+                    }}
+                    onPress={() => selectDiamond(diamond)}
+                >
+                    <Text style={{ textAlign: "center", color: "#24ff00", fontWeight: "bold", fontSize: 20 }}>{diamond.totaldiamond}</Text>
 
-                        <Image
-                            source={item.imagediamond}
-                            style={{
-                                width: 60,
-                                height: 60,
-                                borderRadius: 10,
-                                borderWidth: 1,
-                                margin: 2,
-                                opacity: selectedDiamond?.totaldiamond === item.totaldiamond ? 0.5 : 1,
-                            }}
-                        />
-                        {selectedDiamond?.totaldiamond === item.totaldiamond && <FontAwesome name="check-circle" size={20} color="green" style={{ position: "absolute", top: 5, right: 5 }} />}
-                        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                            <Text style={{ color: "#e97e45", fontWeight: "bold", fontSize: 15 }}>Rp.{item.price}</Text>
-                        </View>
-                    </TouchableOpacity>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                numColumns={3}
-            />
-        </View>
+                    <Image
+                        source={diamond.imagediamond}
+                        style={{
+                            width: 65,
+                            height: 75,
+                            borderRadius: 10,
+                            borderWidth: 1,
+                            margin: 2,
+                            opacity: selectedDiamond?.totaldiamond === diamond.totaldiamond ? 0.5 : 1,
+                        }}
+                    />
+                    {selectedDiamond?.totaldiamond === diamond.totaldiamond && <FontAwesome name="check-circle" size={20} color="green" style={{ position: "absolute", top: 5, right: 5 }} />}
+                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                        <Text style={{ color: "#e97e45", fontWeight: "bold", fontSize: 15 }}>Rp.{diamond.price}</Text>
+                    </View>
+                </TouchableOpacity>
+            ))}
+        </Box>
     );
 };

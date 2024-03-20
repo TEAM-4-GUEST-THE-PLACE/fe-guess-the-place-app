@@ -42,7 +42,10 @@ export default function HomeScreen() {
                         <ButtonText>Play </ButtonText>
                     </Button>
                 </Box>
+                
+                   
             </Box>
+        
         </ImageBackground>
     );
 }
