@@ -78,10 +78,10 @@ export const Avatar = () => {
     }
 
     return (
-      <TouchableOpacity key={index} style={{ marginRight: 20, marginBottom: 5 }} onPress={() => toggleSelection(index)}>
+      <TouchableOpacity key={index} onPress={() => toggleSelection(index)}>
         <View
           style={{
-            width: 75,
+            width: '100%',
             height: 105,
             borderRadius: 10,
             borderWidth: 1,
@@ -89,6 +89,7 @@ export const Avatar = () => {
             backgroundColor: "transparent",
             justifyContent: "center",
             alignItems: "center",
+            padding: 10
           }}
         >
           {avatarComponent}
@@ -98,7 +99,7 @@ export const Avatar = () => {
   };
 
   return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center", margin: "auto", width: "100%", gap: 10 }}>
       {avatars.map((avatar, index) => renderAvatar(avatar.uri, index))}
     </View>
   );
