@@ -1,4 +1,5 @@
 import {
+  Box,
   CloseIcon,
   EditIcon,
   Icon,
@@ -23,7 +24,7 @@ import { Entypo } from "@expo/vector-icons";
 
 export default function ModalAvatar() {
   const [showModal, setShowModal] = useState(false);
-  console.log(showModal);
+  // console.log(showModal);
   const ref = React.useRef(null);
   return (
     <Center>
@@ -64,7 +65,9 @@ export default function ModalAvatar() {
             </ModalCloseButton>
           </ModalHeader>
           <ModalBody>
+            <Box >
             <Avatar />
+            </Box>
           </ModalBody>
           <View display="flex" justifyContent="center" alignItems="center">
             <ModalFooter>
