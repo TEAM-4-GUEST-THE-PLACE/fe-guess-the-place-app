@@ -29,7 +29,6 @@ export default function ModalAvatar() {
   const [showModal, setShowModal] = useState(false);
   const [avatarPrice, setAvatarPrice] = useState(0);
 
-
   const handleSubmit = () => {
     if (selectedAvatarData) {
       const { price, image } = selectedAvatarData;
@@ -47,8 +46,7 @@ export default function ModalAvatar() {
       alert("Please select an avatar");
     }
   };
-  
-  
+
   // const [showModal, setShowModal] = useState(false);
   // console.log(showModal);
   const ref = React.useRef(null);
@@ -91,9 +89,12 @@ export default function ModalAvatar() {
             </ModalCloseButton>
           </ModalHeader>
           <ModalBody>
-            <Box >
-            <Avatar onSelectAvatar={(avatarData: any) => setSelectedAvatarData(avatarData)} />
-
+            <Box>
+              <Avatar
+                onSelectAvatar={(avatarData: any) =>
+                  setSelectedAvatarData(avatarData)
+                }
+              />
             </Box>
           </ModalBody>
           <View display="flex" justifyContent="center" alignItems="center">
@@ -105,7 +106,7 @@ export default function ModalAvatar() {
                 w={120}
                 action="secondary"
                 mr="$3"
-                onPress={() =>  {
+                onPress={() => {
                   setShowModal(false);
                 }}
               >
