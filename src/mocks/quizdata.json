@@ -1,0 +1,27 @@
+[
+    {
+        "image": "https://img.freepik.com/free-photo/statue-liberty-new-york_268835-778.jpg?t=st=1710472135~exp=1710475735~hmac=6912cdb34c55d3d813900d0ac88211812c0807a84abfc765651726fbf6567bc9&w=360",
+        "options": ["jakarta", "bogor", "depok", "bekasi"],
+        "correct_option": "bekasi"
+    },
+    {
+        "image": "https://img.freepik.com/free-photo/famous-borobudur-temple-mungkid-indonesia_181624-15041.jpg?w=900&t=st=1710991128~exp=1710991728~hmac=c036552ff0ff1e8b911dd50a55a9013998ec5e05115509f5fe2e9a8321ac394c",
+        "options": ["bandung", "jogja", "medan", "bali"],
+        "correct_option": "bandung"
+    },
+    {
+        "image": "https://img.freepik.com/free-photo/big-entrance-gate-bali-indonesia_335224-376.jpg?t=st=1711003319~exp=1711006919~hmac=5f51f89c904eaeea0fbaa608cb62a0ec51ae43b3873935f4a9030655c8fb982a&w=900",
+        "options": ["kalimantan", "sumatera", "medan", "sulawesi"],
+        "correct_option": "kalimantan"
+    },
+    {
+        "image": "https://img.freepik.com/free-photo/tanah-lot-temple-bali-island-indonesia_335224-394.jpg?t=st=1711003361~exp=1711006961~hmac=18657b110b6b4e498151ed32139fe4036e47c5184729bff18dba1513c8ea69f2&w=900",
+        "options": ["bali", "papua", "bandung", "puncak"],
+        "correct_option": "bali"
+    },
+    {
+        "image": "https://img.freepik.com/free-photo/wooden-bridge-koh-nangyuan-island-surat-thani-thailand_335224-1082.jpg?t=st=1711003421~exp=1711007021~hmac=d1235d7fa8fef1d35e45b03d771e6e3949bd57ad7642df83c502b6cefda929d7&w=900",
+        "options": ["bekasi", "ntt", "ntb", "sulawesi"],
+        "correct_option": "ntt"
+    }
+]

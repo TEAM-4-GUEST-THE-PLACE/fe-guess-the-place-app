@@ -18,33 +18,25 @@ export default function FindMatch() {
     const [userLists, setUserLists] = useState<IUserList[]>();
     const [playerInRoom, setPlayerInRoom] = useState(0);
 
+    const dataUserLogin = UseUserData();
+
     // const socket = io("http://192.168.18.27:3000");
-    // const socket = io("https://92d0-2404-8000-1095-99a-c48f-ce1a-6b9c-fd4b.ngrok-free.app");
-    const socket = io("https://3f41-2404-8000-1095-99a-d18c-ab8f-d10-fea4.ngrok-free.app");
+    const socket = io("https://8af2-2404-8000-1095-99a-d18c-ab8f-d10-fea4.ngrok-free.app");
 
     useEffect(() => {
         socket.emit("joinRoom", { username: dataUserLogin?.username });
     }, []);
 
     socket.on("usersList", (data) => {
-        // console.log("userLists from server:", data);
         setUserLists(data);
     });
-
-    const dataUserLogin = UseUserData();
-    // console.log("datauserlogin:", dataUserLogin);
 
     socket.on("clients-total", (data) => {
         setPlayerInRoom(data);
     });
 
-    // if (userLists) {
-    //     console.log("userlists:", userLists);
-    // }
-
     function exitRoom() {
         const userExitRoom = userLists && userLists.filter((user) => user.username === dataUserLogin?.username);
-        console.log("userExitRoom", userExitRoom);
         const { id, username, room } = userExitRoom![0];
         const dataUserToExit = { id, username, room };
         console.log("dataUserToExit", dataUserToExit);
@@ -53,13 +45,11 @@ export default function FindMatch() {
         navigation.navigate("Home" as never);
     }
 
-    // console.log("userLists in fe -- be:", userLists);
-
     useEffect(() => {
         if (!timeLeft) return;
 
         const intervalId = setInterval(() => {
-            setTimeLeft(timeLeft - 1);
+            setTimeLeft((t) => t - 1);
         }, 1000);
 
         return () => clearInterval(intervalId);
@@ -71,7 +61,7 @@ export default function FindMatch() {
 
     if (!timeLeft) {
         setTimeout(() => {
-            // navigation.navigate("Question" as never);
+            navigation.navigate("Question" as never);
         }, 2000);
     }
 
@@ -119,9 +109,10 @@ export default function FindMatch() {
                     ))}
             </Box>
 
-            <Button size="md" mt={-50} bg="$green600" w={200} variant="solid" action="primary" isDisabled={false} isFocusVisible={false} onPress={() => navigation.navigate("Room" as never)}>
-                <ButtonText>Room player </ButtonText>
-            </Button>
+            {/* ROOM CHAT while waiting players soon... */}
+            {/* <Button size="md" mt={20} bg="$green600" w={150} variant="solid" action="primary" isDisabled={false} isFocusVisible={false} onPress={() => navigation.navigate("Room" as never)}>
+                <ButtonText>Room Chat </ButtonText>
+            </Button> */}
         </ImageBackground>
     );
 }
