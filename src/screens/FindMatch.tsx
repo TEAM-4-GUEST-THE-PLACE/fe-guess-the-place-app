@@ -9,45 +9,47 @@ import { IPlayers } from "../interface/players";
 import { ButtonText } from "@gluestack-ui/themed";
 import io from "socket.io-client";
 import UseUserData from "../hooks/useUserData";
+import { IUserList } from "../interface/userList";
 
 export default function FindMatch() {
     const navigation = useNavigation();
     const [timeLeft, setTimeLeft] = useState(5);
     const [players, setPlayers] = useState<null | IPlayers[]>(null);
-    const [userLists, setUserLists] = useState();
+    const [userLists, setUserLists] = useState<IUserList[]>();
     const [playerInRoom, setPlayerInRoom] = useState(0);
 
-    const socket = io("http://192.168.18.27:3000");
-    // const socket = io("https://92d0-2404-8000-1095-99a-c48f-ce1a-6b9c-fd4b.ngrok-free.app");
-
     const dataUserLogin = UseUserData();
-    console.log("datauserlogin:", dataUserLogin);
 
-    socket.on("clients-total", (data) => {
-        console.log("data clients", data);
-    });
-
-    socket.on("userLists", (data) => {
-        setUserLists(data);
-    });
-
-    if (userLists) {
-        console.log("userlists:", userLists);
-    }
-
-    function endRoom() {
-        socket.emit("endRoom", { username: dataUserLogin?.username });
-    }
+    // const socket = io("http://192.168.18.27:3000");
+    const socket = io("https://8af2-2404-8000-1095-99a-d18c-ab8f-d10-fea4.ngrok-free.app");
 
     useEffect(() => {
         socket.emit("joinRoom", { username: dataUserLogin?.username });
     }, []);
 
+    socket.on("usersList", (data) => {
+        setUserLists(data);
+    });
+
+    socket.on("clients-total", (data) => {
+        setPlayerInRoom(data);
+    });
+
+    function exitRoom() {
+        const userExitRoom = userLists && userLists.filter((user) => user.username === dataUserLogin?.username);
+        const { id, username, room } = userExitRoom![0];
+        const dataUserToExit = { id, username, room };
+        console.log("dataUserToExit", dataUserToExit);
+
+        socket.emit("exitRoom", dataUserToExit);
+        navigation.navigate("Home" as never);
+    }
+
     useEffect(() => {
         if (!timeLeft) return;
 
         const intervalId = setInterval(() => {
-            setTimeLeft(timeLeft - 1);
+            setTimeLeft((t) => t - 1);
         }, 1000);
 
         return () => clearInterval(intervalId);
@@ -59,7 +61,7 @@ export default function FindMatch() {
 
     if (!timeLeft) {
         setTimeout(() => {
-            // navigation.navigate("Question" as never);
+            navigation.navigate("Question" as never);
         }, 2000);
     }
 
@@ -69,7 +71,7 @@ export default function FindMatch() {
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mt={20} px={15}>
                 <Image source={require("../../assets/logo/logo2.png")} alt="logo" size="sm" />
                 <Box bg="white" px={3} py={2} borderRadius={4}>
-                    <Icon name="cross" size={20} color={"black"} onPress={() => navigation.navigate("Home" as never)} />
+                    <Icon name="cross" size={20} color={"black"} onPress={() => exitRoom()} />
                 </Box>
             </Box>
 
@@ -83,7 +85,7 @@ export default function FindMatch() {
                 </Heading>
                 <Heading color="$white" size="2xl">
                     <Heading color="$green400" size="2xl">
-                        {players?.length}
+                        {playerInRoom}
                     </Heading>
                     /5
                 </Heading>
@@ -107,9 +109,10 @@ export default function FindMatch() {
                     ))}
             </Box>
 
-            <Button size="md" mt={-50} bg="$green600" w={200} variant="solid" action="primary" isDisabled={false} isFocusVisible={false} onPress={() => navigation.navigate("Room" as never)}>
-                <ButtonText>Room player </ButtonText>
-            </Button>
+            {/* ROOM CHAT while waiting players soon... */}
+            {/* <Button size="md" mt={20} bg="$green600" w={150} variant="solid" action="primary" isDisabled={false} isFocusVisible={false} onPress={() => navigation.navigate("Room" as never)}>
+                <ButtonText>Room Chat </ButtonText>
+            </Button> */}
         </ImageBackground>
     );
 }
