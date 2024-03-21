@@ -21,9 +21,35 @@ import {
 import React, { useState } from "react";
 import { Avatar } from "./avatarItem";
 import { Entypo } from "@expo/vector-icons";
+import userStore from "../../store/user";
 
 export default function ModalAvatar() {
+  const { setDiamond, setAvatar, user } = userStore((state) => state);
+  const [selectedAvatarData, setSelectedAvatarData] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [avatarPrice, setAvatarPrice] = useState(0);
+
+
+  const handleSubmit = () => {
+    if (selectedAvatarData) {
+      const { price, image } = selectedAvatarData;
+      if (price) {
+        if (user.diamond >= price) {
+          setDiamond(user.diamond - price);
+          setAvatar(image);
+        } else {
+          alert("Not enough diamond");
+        }
+      } else {
+        setAvatar(image);
+      }
+    } else {
+      alert("Please select an avatar");
+    }
+  };
+  
+  
+  // const [showModal, setShowModal] = useState(false);
   // console.log(showModal);
   const ref = React.useRef(null);
   return (
@@ -66,7 +92,8 @@ export default function ModalAvatar() {
           </ModalHeader>
           <ModalBody>
             <Box >
-            <Avatar />
+            <Avatar onSelectAvatar={(avatarData: any) => setSelectedAvatarData(avatarData)} />
+
             </Box>
           </ModalBody>
           <View display="flex" justifyContent="center" alignItems="center">
@@ -78,7 +105,7 @@ export default function ModalAvatar() {
                 w={120}
                 action="secondary"
                 mr="$3"
-                onPress={() => {
+                onPress={() =>  {
                   setShowModal(false);
                 }}
               >
@@ -90,7 +117,7 @@ export default function ModalAvatar() {
                 action="positive"
                 borderWidth="$0"
                 onPress={() => {
-                  setShowModal(false);
+                  setShowModal(false), handleSubmit();
                 }}
               >
                 <ButtonText>Save</ButtonText>
