@@ -1,33 +1,39 @@
 import React, { useState } from "react";
-import { Image, TouchableOpacity, Text } from "react-native";
-import { FontAwesome } from "@expo/vector-icons"; 
-import { View } from "@gluestack-ui/themed";
+import { Image, TouchableOpacity, Text, View } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { Box } from "@gluestack-ui/themed";
+import userStore from "../../store/user";
 
-export const Avatar = () => {
-  const [avatars, setAvatars] = useState([
-    { uri: "https://picsum.photos/200/300", selected: false },
-    { uri: "https://picsum.photos/200/300", selected: false },
-    { uri: "https://picsum.photos/200/300", selected: false },
-    { uri: "https://img.freepik.com/fotos-gratis/avatar-androgino-de-pessoa-queer-nao-binaria_23-2151100226.jpg", selected: false },
-    { uri: "https://img.freepik.com/premium-photo/nonbinary-avatar-picture_862489-4367.jpg", selected: false },
-    { uri: "https://img.freepik.com/free-photo/androgynous-avatar-non-binary-queer-person_23-2151100222.jpg?t=st=1710831610~exp=1710835210~hmac=ee7c2ea82a9aa8315873c31aa85fc167c08ceb2d173c7bf9ad0731ba4e3a8a73&w=740", selected: false },
-  ]);
+const avatarsData = [
+  { id: 1, image: require("../../../assets/avatar/reguler1.jpg"), price: 0, selected: false },
+  { id: 2, image: require("../../../assets/avatar/reguler2.jpg"), price: 0, selected: false },
+  { id: 3, image: require("../../../assets/avatar/reguler3.jpg"), price: 0, selected: false },
+  { id: 4, image: require("../../../assets/avatar/premium1.jpg"), price: 100, selected: false },
+  { id: 5, image: require("../../../assets/avatar/premium2.jpg"), price: 250, selected: false },
+  { id: 6, image: require("../../../assets/avatar/premium3.jpg"), price: 570, selected: false },
+];
 
-  const toggleSelection = (index : any) => {
-    setAvatars(avatars.map((avatar, i) => {
-      if (i === index) {
-        return { ...avatar, selected: !avatar.selected };
-      } else {
-        return { ...avatar, selected: false }; 
-      }
-    }));
+export const Avatar = ({ onSelectAvatar }: any) => {
+  const { setDiamond, setAvatar, user } = userStore((state) => state);
+  const [avatars, setAvatars] = useState(avatarsData);
+
+  const handleAvatar = ({ id, image, price, selected }: any) => {
+    if (!selected) {
+      onSelectAvatar({ id, image, price });
+      setAvatars(avatars.map(avatar => {
+        if (avatar.id === id) {
+          return { ...avatar, selected: true };
+        } else {
+          return { ...avatar, selected: false };
+        }
+      }));
+    }
   };
 
-  const renderAvatar = (avatarUri : any , index : any)  => {
+  const renderAvatar = (avatar: any) => {
     let avatarComponent = (
       <Image
-        key={index}
-        source={{ uri: avatarUri }}
+        source={avatar.image}
         style={{
           width: 65,
           height: 65,
@@ -38,18 +44,7 @@ export const Avatar = () => {
       />
     );
 
-    if (index < 3) {
-      avatarComponent = (
-        <>
-          {avatarComponent}
-          <Text style={{ color: "white", marginTop: 5, fontWeight: "bold" }}>
-            FREE
-          </Text>
-        </>
-      );
-    }
-
-    if (avatars[index].selected) {
+    if (avatar.selected) {
       avatarComponent = (
         <>
           {avatarComponent}
@@ -63,25 +58,33 @@ export const Avatar = () => {
       );
     }
 
-    if (index >= 3) {
+    if (avatar.price > 0) {
       avatarComponent = (
         <>
           {avatarComponent}
-          <FontAwesome
-            name="diamond"
-            size={24}
-            color="#0091ea"
-            style={{ marginTop: 5, marginBottom: 5 }}
-          />
+          <Box flexDirection="row">
+            <Text style={{ color: "white", marginTop: 5, fontWeight: "bold" }}>
+              {avatar.price}
+            </Text>
+            <FontAwesome
+              name="diamond"
+              size={19}
+              color="#0091ea"
+              style={{ marginTop: 5, marginBottom: 5 }}
+            />
+          </Box>
         </>
       );
     }
 
     return (
-      <TouchableOpacity key={index} style={{ marginRight: 20, marginBottom: 5 }} onPress={() => toggleSelection(index)}>
+      <TouchableOpacity
+        key={avatar.id}
+        onPress={() => handleAvatar(avatar)}
+      >
         <View
           style={{
-            width: 75,
+            width: "100%",
             height: 105,
             borderRadius: 10,
             borderWidth: 1,
@@ -89,6 +92,7 @@ export const Avatar = () => {
             backgroundColor: "transparent",
             justifyContent: "center",
             alignItems: "center",
+            padding: 10,
           }}
         >
           {avatarComponent}
@@ -98,8 +102,18 @@ export const Avatar = () => {
   };
 
   return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
-      {avatars.map((avatar, index) => renderAvatar(avatar.uri, index))}
+    <View
+      style={{
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "auto",
+        width: "100%",
+        gap: 10,
+      }}
+    >
+      {avatars.map((avatar) => renderAvatar(avatar))}
     </View>
   );
 };

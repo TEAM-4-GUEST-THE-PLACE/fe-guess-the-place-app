@@ -6,6 +6,7 @@ import ChooseAvatar from "../screens/ChooseAvatar";
 import FindMatch from "../screens/FindMatch";
 import QuestionScreen from "../screens/QuestionScreen";
 import RoomScreen from "../screens/RoomScreen";
+import CongratsScreen from "../screens/CongratsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export default function Router() {
             <Stack.Screen name="FindMatch" component={FindMatch} />
             <Stack.Screen name="Question" component={QuestionScreen} />
             <Stack.Screen name="Room" component={RoomScreen} />
+            <Stack.Screen name="Congrats" component={CongratsScreen} />
         </Stack.Navigator>
     );
 }

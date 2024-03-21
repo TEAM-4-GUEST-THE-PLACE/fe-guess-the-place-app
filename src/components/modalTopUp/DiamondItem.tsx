@@ -48,7 +48,7 @@ export const DiamondItem = () => {
     };
 
     return (
-        <Box style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+        <Box style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: 10 }}>
             {diamondData.map((diamond, index) => (
                 <TouchableOpacity
                     key={index}
@@ -57,11 +57,9 @@ export const DiamondItem = () => {
                         justifyContent: "center",
                         alignItems: "center",
                         gap: 5,
-                        marginRight: 20,
-                        marginBottom: 5,
                         borderWidth: 1,
                         borderColor: "white",
-                        padding: 1,
+                        padding: 10,
                         borderRadius: 5,
                         backgroundColor: selectedDiamond?.totaldiamond === diamond.totaldiamond ? "rgba(255, 255, 255, 0.5)" : "transparent",
                     }}
