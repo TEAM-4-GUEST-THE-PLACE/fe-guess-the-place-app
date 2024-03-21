@@ -1,4 +1,9 @@
 export interface IAvatar {
   id: number;
-  avatar: string;
+  image: string;
+}
+export interface IAvatarModal {
+  id: number;
+  image: string;
+  price: number
 }

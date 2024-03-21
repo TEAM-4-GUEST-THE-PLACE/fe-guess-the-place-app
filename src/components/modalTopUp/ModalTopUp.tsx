@@ -29,7 +29,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 export default function ModalTopUp() {
   const [showModal, setShowModal] = useState(false);
-  console.log(showModal);
+  // console.log(showModal);
   const ref = React.useRef(null);
   return (
     <Center>
