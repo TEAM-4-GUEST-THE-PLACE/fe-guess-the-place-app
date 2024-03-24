@@ -188,8 +188,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     marginTop: 30,
-    gap: 20,
+    gap: 10,
     paddingHorizontal: 20,
+
   },
   avatarItem: {
     justifyContent: "center",
@@ -197,11 +198,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 1,
     alignItems: "center",
-    position: "relative", // Added position relative
+    position: "relative", 
+    
   },
   avatarImage: {
-    width: 60,
-    height: 60,
+    width: 75,
+    height: 75,
+    borderWidth: 6,
+    borderColor: "white",
+    borderRadius: 50,
+   
   },
   selectedAvatar: {
     borderColor: "green", // Added border color for selected avatar
