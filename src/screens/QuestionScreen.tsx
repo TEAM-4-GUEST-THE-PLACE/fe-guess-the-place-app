@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { StyleSheet, ImageBackground, StatusBar, ActivityIndicator, Alert, TouchableOpacity, Animated } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import dataQuestion from "../../src/mocks/quizdata.json";
-import { useNavigation } from "@react-navigation/native";
 
 const bg1 = require("../../assets/background/bg1.jpg");
 
@@ -11,7 +10,6 @@ const answer = ["Jakarta", "Bekasi", "Bogor", "Depok"];
 
 export default function QuestionScreen({ navigation }: any) {
     const allQuestion = dataQuestion;
-    // const navigation = useNavigation();
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [currentOptionSelected, setcurrentOptionSelected] = useState<null | string>(null);

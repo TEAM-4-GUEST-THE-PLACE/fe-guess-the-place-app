@@ -7,12 +7,17 @@ import FindMatch from "../screens/FindMatch";
 import QuestionScreen from "../screens/QuestionScreen";
 import RoomScreen from "../screens/RoomScreen";
 import CongratsScreen from "../screens/CongratsScreen";
+import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
 export default function Router() {
+    const [isEmail, setIsEmail] = useState(false);
+
+    //get email from zustand
+
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Avatar">
+        <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: true, statusBarColor: "black" }} initialRouteName={isEmail ? "Home" : "Avatar"}>
             <Stack.Screen name="Splash" component={SplashScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
