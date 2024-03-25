@@ -2,13 +2,16 @@ import { Box, Heading, Input, InputField } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput } from "react-native";
 import io from "socket.io-client";
+import userStore from "../store/user";
 
 export default function RoomScreen() {
+
     const [chatMessage, setChatMessage] = useState("");
     const [messages, setMessages] = useState<string[]>([]);
 
     //connection to socket server
     const socket = io("http://192.168.18.27:3000");
+
 
     // useEffect(() => {
     //     socket.emit("joinRoom", { username: "iqbal uhuy" });

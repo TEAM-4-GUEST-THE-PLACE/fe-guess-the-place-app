@@ -18,27 +18,27 @@ export default function CongratsScreen() {
   const dummyData = [
     {
       name: "John",
-      avatar: require("../../assets/avatar/Ellipse 1.png"),
+      avatar: require("../../assets/avatar/avatar-reguler8.png"),
       score: 1000000,
     },
     {
       name: "Roman",
-      avatar: require("../../assets/avatar/Ellipse 2.png"),
+      avatar: require("../../assets/avatar/avatar-reguler2.png"),
       score: 4000,
     },
     {
       name: "Bearier 22",
-      avatar: require("../../assets/avatar/Ellipse 3.png"),
+      avatar: require("../../assets/avatar/avatar-reguler6.png"),
       score: 4000,
     },
     {
       name: "Bearierbonk",
-      avatar: require("../../assets/avatar/Ellipse 4.png"),
+      avatar: require("../../assets/avatar/avatar-reguler4.png"),
       score: 250,
     },
     {
       name: "matic",
-      avatar: require("../../assets/avatar/Ellipse 5.png"),
+      avatar: require("../../assets/avatar/avatar-reguler5.png"),
       score: 780,
     },
   ];

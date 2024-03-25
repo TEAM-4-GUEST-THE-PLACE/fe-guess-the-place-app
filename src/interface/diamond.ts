@@ -1,5 +1,6 @@
-export interface Diamond {
-    totaldiamond: number;
-    imagediamond: any;
-    price: number;
-  }
+export interface IDiamond {
+  id: number;
+  image: string;
+  price?: number | string;
+  diamond?: number | undefined;
+}

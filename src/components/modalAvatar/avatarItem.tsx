@@ -5,9 +5,9 @@ import { Box } from "@gluestack-ui/themed";
 import userStore from "../../store/user";
 
 const avatarsData = [
-  { id: 1, image: require("../../../assets/avatar/reguler1.jpg"), price: 0, selected: false },
-  { id: 2, image: require("../../../assets/avatar/reguler2.jpg"), price: 0, selected: false },
-  { id: 3, image: require("../../../assets/avatar/reguler3.jpg"), price: 0, selected: false },
+  { id: 1, image: require("../../../assets/avatar/avatar-modal1.png"), price: 0, selected: false },
+  { id: 2, image: require("../../../assets/avatar/avatar-modal2.png"), price: 0, selected: false },
+  { id: 3, image: require("../../../assets/avatar/avatar-modal3.png"), price: 0, selected: false },
   { id: 4, image: require("../../../assets/avatar/premium1.jpg"), price: 100, selected: false },
   { id: 5, image: require("../../../assets/avatar/premium2.jpg"), price: 250, selected: false },
   { id: 6, image: require("../../../assets/avatar/premium3.jpg"), price: 570, selected: false },
