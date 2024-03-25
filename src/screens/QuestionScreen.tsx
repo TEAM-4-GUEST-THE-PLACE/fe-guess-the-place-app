@@ -2,9 +2,6 @@ import {
   Avatar,
   AvatarImage,
   Box,
-  Button,
-  ButtonText,
-  Heading,
   Image,
   Text,
   View,
@@ -13,24 +10,15 @@ import { useEffect, useState } from "react";
 import {
   StyleSheet,
   ImageBackground,
-  StatusBar,
-  ActivityIndicator,
-  Alert,
   TouchableOpacity,
   Animated,
 } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
 import dataQuestion from "../../src/mocks/quizdata.json";
-import { useNavigation } from "@react-navigation/native";
 import userStore from "../store/user";
-
 const bg1 = require("../../assets/background/bg1.jpg");
-
-const answer = ["Jakarta", "Bekasi", "Bogor", "Depok"];
 
 export default function QuestionScreen({ navigation }: any) {
   const allQuestion = dataQuestion;
-  // const navigation = useNavigation();
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentOptionSelected, setcurrentOptionSelected] = useState<
@@ -47,6 +35,10 @@ export default function QuestionScreen({ navigation }: any) {
   const [selectAnswerIndex, setSelectAnswerIndex] = useState<number | null>(
     null
   );
+  const [answerStatus, setAnswerStatus] = useState<Array<{
+    option: string;
+    isCorrect: boolean;
+  }> | null>(null);
 
   useEffect(() => {
     if (!timeLeft) {
@@ -69,24 +61,31 @@ export default function QuestionScreen({ navigation }: any) {
     if (selectedOption === correct_option) {
       //setTropi or score
       setScore(score + 100);
-      console.log("score after:", score);
+      // console.log("score after:", score);
     }
     setcurrentOptionSelected(selectedOption);
     setCorrectOption(correct_option);
     setIsOptionDisabled(true);
 
-    console.log("score:", score);
+    // console.log("score:", score);
     //show next button
     setShowBtnNext(true);
   };
 
   const handleNext = () => {
+    let answersStatus = allQuestion[currentQuestionIndex]["options"].map(
+      (option) => ({
+        option,
+        isCorrect: option === correctOption,
+      })
+    );
+
     if (currentQuestionIndex == allQuestion.length - 1) {
       //last Question
       //show score modal
       setSelectAnswerIndex(null);
       setTimeout(() => {
-        navigation.navigate("Home");
+        navigation.navigate("Congrats");
       }, 1000);
       setShowScorePage(true);
     } else {
@@ -97,25 +96,12 @@ export default function QuestionScreen({ navigation }: any) {
       setShowBtnNext(false);
       setTimeLeft(5);
     }
+    setAnswerStatus(answersStatus);
     Animated.timing(progress, {
       toValue: currentQuestionIndex + 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  };
-
-  const renderNextButton = () => {
-    if (showBtnNext) {
-      return (
-        <Box display="flex" alignItems="center" justifyContent="center" mt={20}>
-          <Button w={200} onPress={handleNext}>
-            <Text color={"white"}>Next</Text>
-          </Button>
-        </Box>
-      );
-    } else {
-      return null;
-    }
   };
 
   const progressAnim = progress.interpolate({
@@ -131,7 +117,7 @@ export default function QuestionScreen({ navigation }: any) {
             height: 15,
             borderRadius: 20,
             backgroundColor: "#00000060",
-            marginTop: 20,
+            marginTop: 150,
           }}
         >
           <Animated.View
@@ -226,22 +212,15 @@ export default function QuestionScreen({ navigation }: any) {
               style={{
                 borderWidth: 2,
                 borderColor:
-                  option == correctOption
-                    ? "lightgreen"
-                    : option == currentOptionSelected
-                      ? "red"
-                      : "white",
-                borderRadius: 15,
+                  option == currentOptionSelected ? "#06BCD3" : "white",
+                borderRadius: 5,
                 paddingVertical: 5,
                 paddingHorizontal: 5,
                 flexDirection: "row",
                 backgroundColor:
-                  option == correctOption
-                    ? "#dffad9"
-                    : option == currentOptionSelected
-                      ? "#fce4e3"
-                      : "white",
+                  option == currentOptionSelected ? "#fce4e3" : "white",
                 width: "80%",
+                height: 40,
                 justifyContent: "space-between",
                 alignItems: "center",
               }}
@@ -251,10 +230,10 @@ export default function QuestionScreen({ navigation }: any) {
               <Text style={{ fontSize: 20, color: "#000", paddingLeft: 10 }}>
                 {option}
               </Text>
-              {/* show avatar if the option is selected */}
+
               {/* show avatar if the option is selected */}
               {currentOptionSelected === option && (
-                <Avatar h={30} w={30} right={10}>
+                <Avatar h={30} w={30} right={10} bg="transparent">
                   <AvatarImage
                     alt="avatar"
                     style={{ width: 30, height: 30 }}
@@ -276,32 +255,24 @@ export default function QuestionScreen({ navigation }: any) {
                         : option == currentOptionSelected
                           ? "red"
                           : "white",
-                    backgroundColor: "lightgreen",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
-                >
-                  <Icon name="check" size={20} color={"white"} />
-                </View>
+                ></View>
               ) : option == currentOptionSelected ? (
                 <View
                   style={{
                     width: 30,
                     height: 30,
                     borderRadius: 30 / 2,
-                    backgroundColor: "red",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
-                >
-                  {/* <Icon name="close" size={20} color={"white"} /> */}
-                </View>
+                ></View>
               ) : null}
             </TouchableOpacity>
           ))}
         </View>
-        {/* show next question */}
-        {renderNextButton()}
 
         {/* show progres bar */}
         {renderProgresBar()}

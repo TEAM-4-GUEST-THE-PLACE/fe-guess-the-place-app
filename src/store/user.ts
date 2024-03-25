@@ -47,7 +47,7 @@ const userStore = create<userStore>((set) =>({
 
     setDiamond: (
         diamond: number
-    ) => set((state) => ({user: {...state.user, diamond}})),
+    ) => set((state) => ({user: {...state.user,  diamond: state.user.diamond + diamond}})),
 
     setDiamondMin: (diamond: number) => set((state) => ({user: {...state.user, diamond: state.user.diamond - diamond} }))
 
