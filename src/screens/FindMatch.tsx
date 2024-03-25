@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { IPlayers } from "../interface/players";
 import { ButtonText } from "@gluestack-ui/themed";
 import io from "socket.io-client";
-import UseUserData from "../hooks/useUserData";
+import UseUserData from "../hooks/useLogin";
 import { IUserList } from "../interface/userList";
 import userStore from "../store/user";
 
@@ -35,12 +35,13 @@ export default function FindMatch() {
   const dataUserLogin = UseUserData();
 
   // const socket = io("http://192.168.18.27:3000");
+  // const socket = io("https://8af2-2404-8000-1095-99a-d18c-ab8f-d10-fea4.ngrok-free.app");
   const socket = io(
     "https://aace-2404-8000-1095-99a-14b4-8e00-e1a4-b94b.ngrok-free.app"
   );
 
   useEffect(() => {
-    socket.emit("joinRoom", { username: dataUserLogin?.username });
+    socket.emit("joinRoom", { username: dataUserLogin?.fullname });
   }, []);
 
   socket.on("usersList", (data) => {
@@ -54,7 +55,7 @@ export default function FindMatch() {
   function exitRoom() {
     const userExitRoom =
       userLists &&
-      userLists.filter((user) => user.username === dataUserLogin?.username);
+      userLists.filter((user) => user.username === dataUserLogin?.fullname);
     const { id, username, room } = userExitRoom![0];
     const dataUserToExit = { id, username, room };
     console.log("dataUserToExit", dataUserToExit);

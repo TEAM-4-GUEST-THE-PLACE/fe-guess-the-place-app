@@ -22,7 +22,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import ModalTopUp from "../components/modalTopUp/ModalTopUp";
 import { AvatarBadge } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalAvatar from "../components/modalAvatar/modalAvatar";
 
 const bg1 = require("../../assets/background/bg1.jpg");
@@ -31,10 +31,34 @@ const diamondLogo = require("../../assets/logo/diamond.png");
 const img = require("../../assets/image/play-img.png");
 // const avatar = require("../../assets/image/avatar.jpg");
 import userStore from "../store/user";
+import { API } from "../utils/API";
 
 export default function HomeScreen() {
   const { avatar, diamond, username } = userStore((state) => state.user);
   const navigation = useNavigation();
+  const [dataUser, setDataUser] = useState({
+    username: "",
+    avatar: "",
+    diamond: "",
+  });
+  const email = userStore((state) => state.user.email);
+  console.log("email:", email);
+
+  const fetchDataUser = async () => {
+    try {
+      const response = await API.get(`users/${email}`);
+      setDataUser(response.data);
+
+      console.log("response dataUser by email:", response.data);
+      //set response to dataUser State
+    } catch (error) {
+      console.log("error fetch dataUser:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataUser();
+  }, []);
 
   return (
     <ImageBackground source={bg1} style={styles.container} blurRadius={3}>

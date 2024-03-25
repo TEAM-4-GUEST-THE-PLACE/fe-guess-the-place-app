@@ -1,7 +1,6 @@
 import { useUser } from "@clerk/clerk-expo";
-import { Text } from "react-native";
 
-export default function UseUserData() {
+export default function useLogin() {
     const { isLoaded, isSignedIn, user } = useUser();
 
     if (!isLoaded || !isSignedIn) {
@@ -12,14 +11,9 @@ export default function UseUserData() {
     for (const data of user.emailAddresses) {
         email = data.emailAddress;
     }
-    // return (
-    //     <Text>
-    //         Hello, {user.fullName} welcome to Guess The Place, {email}
-    //     </Text>
-    // );
 
     return {
-        username: user.fullName,
+        fullname: user.fullName,
         email: email,
     };
 }

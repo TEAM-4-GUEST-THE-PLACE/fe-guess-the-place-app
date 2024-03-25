@@ -13,7 +13,7 @@ import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 import { Text } from "react-native";
 import SignInScreen from "./src/screens/AuthScreen/SignInScreen";
 import * as SecureStore from "expo-secure-store";
-import UseUserData from "./src/hooks/useUserData";
+// import UseLogin from "./src/hooks/useLogin";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +43,7 @@ const SignOut = () => {
     <Button
       onPress={() => {
         signOut();
+        console.log("sign out success");
       }}
     >
       <ButtonText>Sign Out</ButtonText>
@@ -60,7 +61,7 @@ export default function App() {
         <StatusBar style="auto" />
 
         <SignedIn>
-          {/* <UseUserData /> */}
+          {/* <UseLogin /> */}
           <NavigationContainer>
             <Router />
           </NavigationContainer>
