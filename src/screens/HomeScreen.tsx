@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import ModalTopUp from "../components/modalTopUp/ModalTopUp";
 import { AvatarBadge } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalAvatar from "../components/modalAvatar/modalAvatar";
 
 const bg1 = require("../../assets/background/bg1.jpg");
@@ -14,10 +14,34 @@ const logo = require("../../assets/logo/logo2.png");
 const img = require("../../assets/image/play-img.png");
 // const avatar = require("../../assets/image/avatar.jpg");
 import userStore from "../store/user";
+import { API } from "../utils/API";
 
 export default function HomeScreen() {
-    const {avatar, username} = userStore((state) => state.user);
+    const { avatar, username } = userStore((state) => state.user);
     const navigation = useNavigation();
+    const [dataUser, setDataUser] = useState({
+        username: "",
+        avatar: "",
+        diamond: "",
+    });
+    const email = userStore((state) => state.user.email);
+    console.log("email:", email);
+
+    const fetchDataUser = async () => {
+        try {
+            const response = await API.get(`users/${email}`);
+            setDataUser(response.data);
+
+            console.log("response dataUser by email:", response.data);
+            //set response to dataUser State
+        } catch (error) {
+            console.log("error fetch dataUser:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataUser();
+    }, []);
 
     return (
         <ImageBackground source={bg1} style={styles.container} blurRadius={3}>
@@ -34,7 +58,7 @@ export default function HomeScreen() {
                 </Link>
                 <ModalAvatar />
 
-                <Heading color="$white" size="2xl" >
+                <Heading color="$white" size="2xl">
                     {username}
                 </Heading>
 
@@ -45,15 +69,11 @@ export default function HomeScreen() {
                     </Button>
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="center" mt={100}>
-                    
                     <Button size="md" mt={-50} bg="$green600" w={200} variant="solid" action="primary" isDisabled={false} isFocusVisible={false} onPress={() => navigation.navigate("Congrats" as never)}>
                         <ButtonText>Tester Page</ButtonText>
                     </Button>
                 </Box>
-                
-                   
             </Box>
-        
         </ImageBackground>
     );
 }
