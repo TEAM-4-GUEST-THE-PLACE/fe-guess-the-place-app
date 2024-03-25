@@ -24,11 +24,15 @@ export default function HomeScreen() {
         avatar: "",
         diamond: "",
     });
+    const email = userStore((state) => state.user.email);
+    console.log("email:", email);
 
     const fetchDataUser = async () => {
         try {
-            const response = await API.get("usersk");
-            console.log(response.data);
+            const response = await API.get(`users/${email}`);
+            setDataUser(response.data);
+
+            console.log("response dataUser by email:", response.data);
             //set response to dataUser State
         } catch (error) {
             console.log("error fetch dataUser:", error);

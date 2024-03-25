@@ -12,7 +12,7 @@ const { width, height } = Dimensions.get("window");
 const dummyAvatar = [
     {
         id: 1,
-        image: require("../../assets/avatar/Ellipse 1.png"),
+        image: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?t=st=1711342987~exp=1711346587~hmac=40f1a31fe21174a140bdf08bda05958e66ea25bfbddd000e5b1aa4c58cbdef02&w=740",
     },
     {
         id: 2,
@@ -60,18 +60,26 @@ const dummyAvatar = [
     },
 ];
 
+interface IListAvatars {
+    id: number;
+    image: string;
+}
+
 export default function ChooseAvatar() {
     const navigation = useNavigation();
     const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null); // State for selected avatar
     const [nama, setNama] = useState<string>("");
     const [avatar, setAvatar] = useState<string>("");
+    const [listAvatars, setListAvatars] = useState<IListAvatars[] | null>(null);
     const setAvatarUsername = userStore((state) => state.updateUserNameAvatar);
+    const setEmail = userStore((state) => state.setEmail);
     const userLogin = useLogin();
 
     const fetchListAvatar = async () => {
         try {
-            const response = await API.get("users");
-            console.log("list avatar:", response);
+            const response = await API.get("avatars");
+            setListAvatars(response.data.data);
+            console.log("list avatar:", response.data.data);
         } catch (error) {
             console.log("error fetch listAvatar:", error);
         }
@@ -83,25 +91,32 @@ export default function ChooseAvatar() {
 
     const postDataUser = async () => {
         try {
-            const response = await API.post("posts", {
+            const response = await API.post("users", {
                 email: userLogin?.email,
+                fullname: userLogin?.fullname,
                 username: nama,
                 avatar: avatar,
             });
+
+            console.log("response avatar:", avatar);
+
+            setEmail(response.data.data.email);
+            setAvatarUsername(nama, avatar);
+
             console.log(response.data);
+
+            if (nama) {
+                navigation.navigate("Home" as never);
+            } else {
+                alert("Please enter your name");
+            }
         } catch (error) {
             console.log("error post dataUser:", error);
         }
     };
 
-    // useEffect(() => {
     const { user } = useUser();
     console.log("dataUser:", user?.fullName);
-    // (function login() {
-    //     const dataUser = useLogin();
-    //     console.log("dataUser:", dataUser);
-    // })();
-    // }, []);
 
     const handleSumbit = () => {
         setAvatarUsername(nama, avatar);
@@ -115,8 +130,8 @@ export default function ChooseAvatar() {
     const handleAvatarPress = (avatarId: number, image: string) => {
         // Toggle selected avatar
         setSelectedAvatar(selectedAvatar === avatarId ? null : avatarId);
-        // setAvatar(image);
-        setAvatar("avatarcoba.jpg");
+        setAvatar(image);
+        // setAvatar("avatarcoba.jpg");
     };
 
     return (
@@ -126,12 +141,13 @@ export default function ChooseAvatar() {
                     <Image alt="logo" source={require("../../assets/logo2.png")} mt={100} display="flex" justifyContent="center" alignItems="center" w={100} />
                     <Text style={{ color: "white", fontSize: 20, marginTop: 20 }}>Choose Your Avatar</Text>
                     <View style={styles.avatarContainer}>
-                        {dummyAvatar.map((avatar) => (
-                            <TouchableOpacity key={avatar.id} style={[styles.avatarItem, selectedAvatar === avatar.id && styles.selectedAvatar]} onPress={() => handleAvatarPress(avatar.id, avatar.image)}>
-                                <Image alt="avatar" source={avatar.image} style={styles.avatarImage} />
-                                {selectedAvatar === avatar.id && <FontAwesome name="check-circle" size={24} color="green" style={styles.checkIcon} />}
-                            </TouchableOpacity>
-                        ))}
+                        {listAvatars &&
+                            listAvatars.map((avatar) => (
+                                <TouchableOpacity key={avatar.id} style={[styles.avatarItem, selectedAvatar === avatar.id && styles.selectedAvatar]} onPress={() => handleAvatarPress(avatar.id, avatar.image)}>
+                                    <Image alt="avatar" source={avatar.image} style={styles.avatarImage} />
+                                    {selectedAvatar === avatar.id && <FontAwesome name="check-circle" size={24} color="green" style={styles.checkIcon} />}
+                                </TouchableOpacity>
+                            ))}
                     </View>
                     <View style={{ marginTop: 20 }}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
